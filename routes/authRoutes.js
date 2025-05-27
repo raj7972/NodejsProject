@@ -1,13 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../database'); // ← import your SQLite instance
+const db = require('../database'); // ← your SQLite instance
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_key';
 
-// Register route
-router.post('/register', async (req, res) => {
+// Signup route (changed from '/register' to '/signup')
+router.post('/signup', async (req, res) => {
   const { username, password } = req.body;
 
   // Basic validation
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
   });
 });
 
-// Login route
+// Login route (stays '/login')
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 

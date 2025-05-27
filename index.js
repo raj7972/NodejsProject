@@ -1,19 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes'); // adjust path if needed
-
 const app = express();
 
-// Middleware to parse JSON request bodies
-app.use(bodyParser.json());
+const authRoutes = require('./routes/authRoutes');
 
-// Middleware to parse URL-encoded form data (optional but useful)
-app.use(bodyParser.urlencoded({ extended: true }));
+// Your middleware order matters!
+// You need this to parse JSON bodies first:
+app.use(express.json());
 
-// Mount your auth routes at /api/auth
-app.use('/api/auth', authRoutes);
+// Then mount auth routes:
+app.use('/auth', authRoutes);  // mounts authRoutes at /auth
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
+app.listen(5000, () => console.log('Server started on port 5000'));
