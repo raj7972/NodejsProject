@@ -1,13 +1,21 @@
 const express = require('express');
 const app = express();
 
+// ✅ Load environment variables (optional)
+require('dotenv').config();
+
+// ✅ Middleware to parse JSON bodies
+app.use(express.json()); // ✅ MUST BE BEFORE ROUTES
+
 const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
 
-// Your middleware order matters!
-// You need this to parse JSON bodies first:
-app.use(express.json());
+const bookRoutes = require('./routes/bookRoutes');
+app.use('/api', bookRoutes);
 
-// Then mount auth routes:
-app.use('/auth', authRoutes);  // mounts authRoutes at /auth
 
+app.use('/auth', authRoutes);    // e.g., /auth/register, /auth/login
+app.use('/api', bookRoutes);     // e.g., /api/books
+
+// ✅ Start the server
 app.listen(5000, () => console.log('Server started on port 5000'));
